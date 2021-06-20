@@ -15,7 +15,7 @@ public class NavigationPlan {
         return new NavigationPlan(mowerMovements);
     }
 
-    public List<MowerMovement> getMowerMovements() {
+    List<MowerMovement> getMowerMovements() {
         return mowerMovements;
     }
 }
