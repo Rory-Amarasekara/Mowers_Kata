@@ -9,8 +9,13 @@ public class PositionWithNorthOrientation extends PositionWithOrientation {
     }
 
     @Override
-    public PositionWithOrientation moveForward() {
-        return PositionWithOrientationFactory.createPositionWithNorthOrientation(position.getXAxisPosition(), position.getYAxisPosition() + 1);
+    public PositionWithOrientation moveForward(int lawnXAxisSize, int lawnYAxisSize) {
+
+        if (getYAxisPosition() < lawnYAxisSize) {
+            return PositionWithOrientationFactory.createPositionWithNorthOrientation(position.getXAxisPosition(), position.getYAxisPosition() + 1);
+        } else {
+            return this;
+        }
     }
 
     @Override

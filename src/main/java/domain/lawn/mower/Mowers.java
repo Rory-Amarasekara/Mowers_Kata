@@ -20,10 +20,10 @@ public class Mowers {
         return new Mowers(mowers);
     }
 
-    public Map<MowerId, PositionWithOrientation> followMowerNavigationPlansAndGetFinalPositionAndOrientation() {
+    public Map<MowerId, PositionWithOrientation> followMowerNavigationPlansAndGetFinalPositionAndOrientation(int lawnXAxisSize, int lawnYAxisSize) {
         return mowers
                 .parallelStream()
-                .map(Mower::followNavigationPlan)
+                .map(mower -> mower.followNavigationPlan(lawnXAxisSize, lawnYAxisSize))
                 .collect(Collectors.toMap(Mower::getMowerId, Mower::getPositionWithOrientation));
     }
 }

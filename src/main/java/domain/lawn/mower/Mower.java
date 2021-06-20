@@ -28,15 +28,15 @@ public class Mower {
         return positionWithOrientation;
     }
 
-    Mower followNavigationPlan() {
-        navigationPlan.getMowerMovements().forEach(this::move);
+    Mower followNavigationPlan(int lawnXAxisSize, int lawnYAxisSize) {
+        navigationPlan.getMowerMovements().forEach(mowerMovement -> move(mowerMovement, lawnXAxisSize, lawnYAxisSize));
         return this;
     }
 
-    private void move(MowerMovement mowerMovement) {
+    private void move(MowerMovement mowerMovement, int lawnXAxisSize, int lawnYAxisSize) {
         switch (mowerMovement) {
             case FORWARD:
-                positionWithOrientation = positionWithOrientation.moveForward();
+                positionWithOrientation = positionWithOrientation.moveForward(lawnXAxisSize, lawnYAxisSize);
                 break;
             case LEFT_TURN:
                 positionWithOrientation = positionWithOrientation.turnLeft();

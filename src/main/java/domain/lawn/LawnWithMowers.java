@@ -25,6 +25,6 @@ public class LawnWithMowers {
     }
 
     public Map<MowerId, PositionWithOrientation> followMowerNavigationPlansAndGetFinalPositionAndOrientation() {
-       return mowers.followMowerNavigationPlansAndGetFinalPositionAndOrientation();
+       return mowers.followMowerNavigationPlansAndGetFinalPositionAndOrientation(xAxisSize, yAxisSize);
     }
 }
