@@ -1,34 +1,34 @@
 package domain.lawn.mower;
 
-import domain.lawn.mower.position.and.orientation.PositionAndOrientation;
+import domain.lawn.mower.position.and.orientation.PositionWithOrientation;
 import lombok.ToString;
 
 @ToString
 public class Mower {
 
     private final MowerId mowerId;
-    private PositionAndOrientation positionAndOrientation;
+    private PositionWithOrientation positionWithOrientation;
     private NavigationPlan navigationPlan;
 
-    private Mower(MowerId mowerId, PositionAndOrientation positionAndOrientation, NavigationPlan navigationPlan) {
+    private Mower(MowerId mowerId, PositionWithOrientation positionWithOrientation, NavigationPlan navigationPlan) {
         this.mowerId = mowerId;
-        this.positionAndOrientation = positionAndOrientation;
+        this.positionWithOrientation = positionWithOrientation;
         this.navigationPlan = navigationPlan;
     }
 
-    public static Mower create(MowerId mowerId, PositionAndOrientation positionAndOrientation, NavigationPlan navigationPlan) {
-        return new Mower(mowerId, positionAndOrientation, navigationPlan);
+    public static Mower create(MowerId mowerId, PositionWithOrientation positionWithOrientation, NavigationPlan navigationPlan) {
+        return new Mower(mowerId, positionWithOrientation, navigationPlan);
     }
 
-    public MowerId getMowerId() {
+    MowerId getMowerId() {
         return mowerId;
     }
 
-    public PositionAndOrientation getPositionAndOrientation() {
-        return positionAndOrientation;
+    PositionWithOrientation getPositionWithOrientation() {
+        return positionWithOrientation;
     }
 
-    public Mower followNavigationPlan() {
+    Mower followNavigationPlan() {
         navigationPlan.getMowerMovements().forEach(this::move);
         return this;
     }
@@ -36,13 +36,13 @@ public class Mower {
     private void move(MowerMovement mowerMovement) {
         switch (mowerMovement) {
             case FORWARD:
-                positionAndOrientation = positionAndOrientation.moveForward();
+                positionWithOrientation = positionWithOrientation.moveForward();
                 break;
             case LEFT_TURN:
-                positionAndOrientation = positionAndOrientation.turnLeft();
+                positionWithOrientation = positionWithOrientation.turnLeft();
                 break;
             case RIGHT_TURN:
-                positionAndOrientation = positionAndOrientation.turnRight();
+                positionWithOrientation = positionWithOrientation.turnRight();
                 break;
         }
     }

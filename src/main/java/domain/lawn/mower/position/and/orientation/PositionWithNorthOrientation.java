@@ -1,25 +1,25 @@
 package domain.lawn.mower.position.and.orientation;
 
-import domain.lawn.mower.position.and.orientation.factory.PositionAndOrientationFactory;
+import domain.lawn.mower.position.and.orientation.factory.PositionWithOrientationFactory;
 
-public class PositionWithNorthOrientation extends PositionAndOrientation {
+public class PositionWithNorthOrientation extends PositionWithOrientation {
 
     public PositionWithNorthOrientation(Position position) {
         super(position);
     }
 
     @Override
-    public PositionAndOrientation moveForward() {
-        return PositionAndOrientationFactory.createPositionWithNorthOrientation(position.getXAxisPosition(), position.getYAxisPosition() + 1);
+    public PositionWithOrientation moveForward() {
+        return PositionWithOrientationFactory.createPositionWithNorthOrientation(position.getXAxisPosition(), position.getYAxisPosition() + 1);
     }
 
     @Override
-    public PositionAndOrientation turnLeft() {
-        return PositionAndOrientationFactory.createPositionWithWestOrientation(position.getXAxisPosition(), position.getYAxisPosition());
+    public PositionWithOrientation turnLeft() {
+        return PositionWithOrientationFactory.createPositionWithWestOrientation(position.getXAxisPosition(), position.getYAxisPosition());
     }
 
     @Override
-    public PositionAndOrientation turnRight() {
-        return PositionAndOrientationFactory.createPositionWithEastOrientation(position.getXAxisPosition(), position.getYAxisPosition());
+    public PositionWithOrientation turnRight() {
+        return PositionWithOrientationFactory.createPositionWithEastOrientation(position.getXAxisPosition(), position.getYAxisPosition());
     }
 }

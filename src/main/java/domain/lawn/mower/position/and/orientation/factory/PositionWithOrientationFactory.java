@@ -2,9 +2,9 @@ package domain.lawn.mower.position.and.orientation.factory;
 
 import domain.lawn.mower.position.and.orientation.*;
 
-public class PositionAndOrientationFactory {
+public class PositionWithOrientationFactory {
 
-    private PositionAndOrientationFactory(){}
+    private PositionWithOrientationFactory(){}
 
     public static PositionWithNorthOrientation createPositionWithNorthOrientation(int xAxisPosition, int yAxisPosition){
         return new PositionWithNorthOrientation(Position.create(xAxisPosition, yAxisPosition));
