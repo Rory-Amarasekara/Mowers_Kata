@@ -11,6 +11,7 @@ import java.util.Map;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class LawnmowerSimulatorService {
 
+    //TODO return LawnWithMowers object (same as input)
     public static Map<MowerId, PositionWithOrientation> getFinalMowerPositionsAndOrientations(LawnWithMowers lawnWithMowers) {
         return lawnWithMowers.followMowerNavigationPlansAndGetFinalPositionAndOrientation();
     }
