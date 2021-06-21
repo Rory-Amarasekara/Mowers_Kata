@@ -13,7 +13,7 @@ public abstract class PositionWithOrientation {
         this.position = position;
     }
 
-    public abstract PositionWithOrientation forwardMovement();
+    public abstract PositionWithOrientation moveForward();
 
     public abstract PositionWithOrientation turnLeft();
 

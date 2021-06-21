@@ -11,7 +11,7 @@ public class PositionWithWestOrientation extends PositionWithOrientation {
     }
 
     @Override
-    public PositionWithOrientation forwardMovement() {
+    public PositionWithOrientation moveForward() {
         return PositionWithOrientationFactory.createPositionWithWestOrientation(position.getXAxisPosition() - 1, position.getYAxisPosition());
     }
 

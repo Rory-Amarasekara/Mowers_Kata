@@ -38,7 +38,7 @@ public class Mower {
     private void move(MowerMovement mowerMovement) {
         switch (mowerMovement) {
             case FORWARD:
-                positionWithOrientation = positionWithOrientation.forwardMovement();
+                positionWithOrientation = positionWithOrientation.moveForward();
                 break;
             case LEFT_TURN:
                 positionWithOrientation = positionWithOrientation.turnLeft();
@@ -57,7 +57,7 @@ public class Mower {
         return navigationPlan.getNextMovement()
                 .map(mowerMovement -> {
                     if (MowerMovement.FORWARD.equals(mowerMovement)) {
-                        return positionWithOrientation.forwardMovement().getPosition();
+                        return positionWithOrientation.moveForward().getPosition();
                     } else {
                         return null;
                     }

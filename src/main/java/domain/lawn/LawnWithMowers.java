@@ -41,6 +41,7 @@ public class LawnWithMowers {
 
             Set<MowerId> mowerIdsThatCantMove = findMowersThatCantMove(currentMowerPositions, mowerIdsWithNewPositionsRequired);
 
+            //TODO apply next movement and cancel in parallel
             applyNextMovementToAllMowersThatCanMove(mowerIdMowerMap, mowerIdsThatCantMove);
 
             cancelNextMovementForAllMowersThatCantMove(mowerIdMowerMap, mowerIdsThatCantMove);
@@ -59,7 +60,7 @@ public class LawnWithMowers {
 
     private void applyNextMovementToAllMowersThatCanMove(Map<MowerId, Mower> mowerIdMowerMap, Set<MowerId> mowerIdsThatCantMove) {
 
-        getMowersThatCanMove(mowerIdMowerMap.keySet(), mowerIdsThatCantMove)
+        getMowerIdsThatCanMove(mowerIdMowerMap.keySet(), mowerIdsThatCantMove)
                 .parallelStream()
                 .map(mowerIdMowerMap::get)
                 .forEach(Mower::applyNextMowerMovement);
@@ -70,7 +71,7 @@ public class LawnWithMowers {
         mowerIdsThatCantMove.parallelStream().map(mowerIdMowerMap::get).forEach(Mower::cancelNextMovement);
     }
 
-    private Set<MowerId> getMowersThatCanMove(Set<MowerId> mowerIds, Set<MowerId> mowerIdsThatCantMove) {
+    private Set<MowerId> getMowerIdsThatCanMove(Set<MowerId> mowerIds, Set<MowerId> mowerIdsThatCantMove) {
 
         Set<MowerId> mowerIdsThatCanMove = new HashSet<>(mowerIds);
         mowerIdsThatCanMove.removeAll(mowerIdsThatCantMove);

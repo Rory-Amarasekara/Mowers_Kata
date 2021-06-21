@@ -9,7 +9,7 @@ public class PositionWithSouthOrientation extends PositionWithOrientation {
     }
 
     @Override
-    public PositionWithOrientation forwardMovement() {
+    public PositionWithOrientation moveForward() {
         return PositionWithOrientationFactory.createPositionWithSouthOrientation(position.getXAxisPosition(), position.getYAxisPosition() - 1);
     }
 

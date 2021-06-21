@@ -9,7 +9,7 @@ public class PositionWithNorthOrientation extends PositionWithOrientation {
     }
 
     @Override
-    public PositionWithOrientation forwardMovement() {
+    public PositionWithOrientation moveForward() {
         return PositionWithOrientationFactory.createPositionWithNorthOrientation(position.getXAxisPosition(), position.getYAxisPosition() + 1);
     }
 
