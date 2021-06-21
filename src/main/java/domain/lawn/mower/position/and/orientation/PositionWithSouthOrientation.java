@@ -9,12 +9,8 @@ public class PositionWithSouthOrientation extends PositionWithOrientation {
     }
 
     @Override
-    public PositionWithOrientation moveForward(int lawnXAxisSize, int lawnYAxisSize) {
-        if (getYAxisPosition() > 0) {
-            return PositionWithOrientationFactory.createPositionWithSouthOrientation(position.getXAxisPosition(), position.getYAxisPosition() - 1);
-        } else {
-            return this;
-        }
+    public PositionWithOrientation forwardMovement() {
+        return PositionWithOrientationFactory.createPositionWithSouthOrientation(position.getXAxisPosition(), position.getYAxisPosition() - 1);
     }
 
     @Override

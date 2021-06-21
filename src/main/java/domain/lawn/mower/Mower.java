@@ -1,7 +1,10 @@
 package domain.lawn.mower;
 
+import domain.lawn.mower.position.and.orientation.Position;
 import domain.lawn.mower.position.and.orientation.PositionWithOrientation;
 import lombok.ToString;
+
+import java.util.Optional;
 
 @ToString
 public class Mower {
@@ -28,15 +31,19 @@ public class Mower {
         return positionWithOrientation;
     }
 
-    Mower followNavigationPlan(int lawnXAxisSize, int lawnYAxisSize) {
-        navigationPlan.getMowerMovements().forEach(mowerMovement -> move(mowerMovement, lawnXAxisSize, lawnYAxisSize));
+    Position getPosition() {
+        return positionWithOrientation.getPosition();
+    }
+
+    Mower followNavigationPlan() {
+        navigationPlan.getMowerMovements().forEach(this::move);
         return this;
     }
 
-    private void move(MowerMovement mowerMovement, int lawnXAxisSize, int lawnYAxisSize) {
+    private void move(MowerMovement mowerMovement) {
         switch (mowerMovement) {
             case FORWARD:
-                positionWithOrientation = positionWithOrientation.moveForward(lawnXAxisSize, lawnYAxisSize);
+                positionWithOrientation = positionWithOrientation.forwardMovement();
                 break;
             case LEFT_TURN:
                 positionWithOrientation = positionWithOrientation.turnLeft();
@@ -47,4 +54,31 @@ public class Mower {
         }
     }
 
+    int getRemainingNumberOfMovements() {
+        return navigationPlan.getMowerMovements().size();
+    }
+
+    Optional<Position> getNextRequestedPosition() {
+        return navigationPlan.getNextMovement()
+                .map(mowerMovement -> {
+                    if (MowerMovement.FORWARD.equals(mowerMovement)) {
+                        return positionWithOrientation.forwardMovement().getPosition();
+                    } else {
+                        return null;
+                    }
+                });
+    }
+
+    boolean requiresNewPosition() {
+        return getNextRequestedPosition().isPresent();
+    }
+
+    public void applyNextMowerMovement() {
+        navigationPlan.getNextMovement().ifPresent(this::move);
+        navigationPlan.removeOldestMovement();
+    }
+
+    public void cancelNextMovement(){
+        navigationPlan.removeOldestMovement();
+    }
 }

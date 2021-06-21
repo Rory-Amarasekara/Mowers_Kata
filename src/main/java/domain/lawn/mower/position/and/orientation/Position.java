@@ -27,12 +27,4 @@ public class Position {
     public int getXAxisPosition() {
         return xAxisPosition;
     }
-
-    public void setXAxisPosition(int xAxisPosition) {
-        this.xAxisPosition = xAxisPosition;
-    }
-
-    public void setYAxisPosition(int yAxisPosition) {
-        this.yAxisPosition = yAxisPosition;
-    }
 }

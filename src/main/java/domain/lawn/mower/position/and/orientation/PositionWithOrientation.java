@@ -13,11 +13,15 @@ public abstract class PositionWithOrientation {
         this.position = position;
     }
 
-    public abstract PositionWithOrientation moveForward(int lawnXAxisSize, int lawnYAxisSize);
+    public abstract PositionWithOrientation forwardMovement();
 
     public abstract PositionWithOrientation turnLeft();
 
     public abstract PositionWithOrientation turnRight();
+
+    public Position getPosition(){
+        return position;
+    }
 
     public int getXAxisPosition(){
         return position.getXAxisPosition();

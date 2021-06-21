@@ -11,12 +11,8 @@ public class PositionWithWestOrientation extends PositionWithOrientation {
     }
 
     @Override
-    public PositionWithOrientation moveForward(int lawnXAxisSize, int lawnYAxisSize) {
-        if (getXAxisPosition() > 0) {
-            return PositionWithOrientationFactory.createPositionWithWestOrientation(position.getXAxisPosition() - 1, position.getYAxisPosition());
-        } else {
-            return this;
-        }
+    public PositionWithOrientation forwardMovement() {
+        return PositionWithOrientationFactory.createPositionWithWestOrientation(position.getXAxisPosition() - 1, position.getYAxisPosition());
     }
 
     @Override

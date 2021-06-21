@@ -9,13 +9,8 @@ public class PositionWithEastOrientation extends PositionWithOrientation {
     }
 
     @Override
-    public PositionWithOrientation moveForward(int lawnXAxisSize, int lawnYAxisSize) {
-
-        if (getXAxisPosition() < lawnXAxisSize) {
-            return PositionWithOrientationFactory.createPositionWithEastOrientation(position.getXAxisPosition() + 1, position.getYAxisPosition());
-        } else {
-            return this;
-        }
+    public PositionWithOrientation forwardMovement() {
+        return PositionWithOrientationFactory.createPositionWithEastOrientation(position.getXAxisPosition() + 1, position.getYAxisPosition());
     }
 
     @Override

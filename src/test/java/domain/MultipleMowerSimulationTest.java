@@ -68,4 +68,31 @@ class MultipleMowerSimulationTest {
 
         assertThat(actualMowersFinalPositionAndOrientation).isEqualTo(expectedMowersFinalPositionAdnOrientation);
     }
+
+    @Test
+    void multiple_mower_simulation_with_one_position_requested_but_already_taken_by_a_mower() {
+        //Given
+        Mower mower0 = Mower.create(
+                MowerId.create(0),
+                PositionWithOrientationFactory.createPositionWithEastOrientation(1, 2),
+                NavigationPlan.create(MowerMovement.FORWARD, MowerMovement.FORWARD, MowerMovement.FORWARD));
+
+        Mower mower1 = Mower.create(
+                MowerId.create(1),
+                PositionWithOrientationFactory.createPositionWithNorthOrientation(2, 0),
+                NavigationPlan.create(MowerMovement.FORWARD, MowerMovement.FORWARD, MowerMovement.FORWARD));
+
+        LawnWithMowers lawnWithMowers = LawnWithMowers.create(5, 5, Mowers.create(mower0, mower1));
+
+        //When
+        Map<MowerId, PositionWithOrientation> actualMowersFinalPositionAndOrientation = LawnmowerSimulatorService.getFinalMowerPositionsAndOrientations(lawnWithMowers);
+
+        //Then
+        Map<MowerId, PositionWithOrientation> expectedMowersFinalPositionAdnOrientation = new HashMap<>();
+
+        expectedMowersFinalPositionAdnOrientation.put(MowerId.create(0), PositionWithOrientationFactory.createPositionWithEastOrientation(4, 2));
+        expectedMowersFinalPositionAdnOrientation.put(MowerId.create(1), PositionWithOrientationFactory.createPositionWithNorthOrientation(2, 2));
+
+        assertThat(actualMowersFinalPositionAndOrientation).isEqualTo(expectedMowersFinalPositionAdnOrientation);
+    }
 }
