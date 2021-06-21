@@ -22,19 +22,8 @@ public class Mowers {
         return new Mowers(mowers);
     }
 
-    public Map<MowerId, PositionWithOrientation> followMowerNavigationPlansAndGetFinalPositionAndOrientation() {
-        return mowers
-                .parallelStream()
-                .map(Mower::followNavigationPlan)
-                .collect(Collectors.toMap(Mower::getMowerId, Mower::getPositionWithOrientation));
-    }
-
     public int getBiggestNumberOfMovementsForASingleMower() {
         return mowers.stream().map(Mower::getRemainingNumberOfMovements).max(Comparator.comparingInt(i -> i)).orElse(0);
-    }
-
-    public Map<MowerId, Position> getCurrentMowerIdPositions() {
-        return mowers.parallelStream().collect(Collectors.toMap(Mower::getMowerId, Mower::getPosition));
     }
 
     public Map<MowerId, Position> getMowerIdsWithNewPositionsRequired() {
