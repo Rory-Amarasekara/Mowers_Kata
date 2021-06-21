@@ -3,11 +3,7 @@ package domain.lawn.mower;
 import domain.lawn.mower.position.and.orientation.Position;
 import domain.lawn.mower.position.and.orientation.PositionWithOrientation;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Mowers {
@@ -44,5 +40,9 @@ public class Mowers {
 
     public Map<MowerId, PositionWithOrientation> getMowerIdPositionWithOrientationMap(){
         return mowers.parallelStream().collect(Collectors.toMap(Mower::getMowerId, Mower::getPositionWithOrientation));
+    }
+
+    public Map<Position, List<Mower>> getPositionMowerIdSetMap(){
+        return mowers.stream().collect(Collectors.groupingBy(Mower::getPosition));
     }
 }

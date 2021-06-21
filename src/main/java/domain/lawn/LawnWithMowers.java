@@ -7,9 +7,7 @@ import domain.lawn.mower.position.and.orientation.Position;
 import domain.lawn.mower.position.and.orientation.PositionWithOrientation;
 import lombok.ToString;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @ToString
@@ -38,23 +36,38 @@ public class LawnWithMowers {
         for (int i = 0; i < biggestNumberOfMovementsForASingleMower; i++) {
 
             Set<Position> currentMowerPositions = mowers.getCurrentMowerPositions();
+
             Map<MowerId, Position> mowerIdsWithNewPositionsRequired = mowers.getMowerIdsWithNewPositionsRequired();
 
+            Set<MowerId> mowerIdsThatCantMove = findMowersThatCantMove(currentMowerPositions, mowerIdsWithNewPositionsRequired);
 
-            Set<MowerId> mowerIdsThatRequireANewPosition = mowerIdsWithNewPositionsRequired.keySet();
+            applyNextMovementToAllMowersThatCanMove(mowerIdMowerMap, mowerIdsThatCantMove);
 
-            Set<MowerId> mowerIdsThatCantMove = mowerIdsThatRequireANewPosition
-                    .parallelStream()
-                    .filter(mowerId -> mowerCantMove(mowerId, currentMowerPositions, mowerIdsWithNewPositionsRequired, xAxisSize, yAxisSize))
-                    .collect(Collectors.toSet());
-
-            Set<MowerId> mowersThatCanMove = getMowersThatCanMove(mowerIdMowerMap.keySet(), mowerIdsThatCantMove);
-
-            mowersThatCanMove.parallelStream().map(mowerIdMowerMap::get).forEach(Mower::applyNextMowerMovement);
-            mowerIdsThatCantMove.parallelStream().map(mowerIdMowerMap::get).forEach(Mower::cancelNextMovement);
+            cancelNextMovementForAllMowersThatCantMove(mowerIdMowerMap, mowerIdsThatCantMove);
         }
 
         return mowers.getMowerIdPositionWithOrientationMap();
+    }
+
+    private Set<MowerId> findMowersThatCantMove(Set<Position> currentMowerPositions, Map<MowerId, Position> mowerIdsWithNewPositionsRequired) {
+
+        return mowerIdsWithNewPositionsRequired.keySet()
+                .parallelStream()
+                .filter(mowerId -> mowerCantMove(mowerId, currentMowerPositions, mowerIdsWithNewPositionsRequired, xAxisSize, yAxisSize))
+                .collect(Collectors.toSet());
+    }
+
+    private void applyNextMovementToAllMowersThatCanMove(Map<MowerId, Mower> mowerIdMowerMap, Set<MowerId> mowerIdsThatCantMove) {
+
+        getMowersThatCanMove(mowerIdMowerMap.keySet(), mowerIdsThatCantMove)
+                .parallelStream()
+                .map(mowerIdMowerMap::get)
+                .forEach(Mower::applyNextMowerMovement);
+    }
+
+    private void cancelNextMovementForAllMowersThatCantMove(Map<MowerId, Mower> mowerIdMowerMap, Set<MowerId> mowerIdsThatCantMove) {
+
+        mowerIdsThatCantMove.parallelStream().map(mowerIdMowerMap::get).forEach(Mower::cancelNextMovement);
     }
 
     private Set<MowerId> getMowersThatCanMove(Set<MowerId> mowerIds, Set<MowerId> mowerIdsThatCantMove) {
@@ -87,8 +100,24 @@ public class LawnWithMowers {
                                                                                          Set<Position> currentMowerPositions,
                                                                                          Map<MowerId, Position> mowerIdsWithNewPositionsRequired) {
 
+
+        return nextMowersPositionIsInConflictWithAnotherMowersCurrentPosition(mowerId, currentMowerPositions, mowerIdsWithNewPositionsRequired)
+                || nextMowersPositionIsInConflictWithAnotherMowersNextPosition(mowerId,mowerIdsWithNewPositionsRequired);
+    }
+
+    private boolean nextMowersPositionIsInConflictWithAnotherMowersCurrentPosition(MowerId mowerId, Set<Position> currentMowerPositions, Map<MowerId, Position> mowerIdsWithNewPositionsRequired) {
+
         Position positionRequested = mowerIdsWithNewPositionsRequired.get(mowerId);
 
         return currentMowerPositions.contains(positionRequested);
+    }
+
+    private boolean nextMowersPositionIsInConflictWithAnotherMowersNextPosition(MowerId mowerId, Map<MowerId, Position> mowerIdsWithNewPositionsRequired) {
+
+        Position newPositionRequired = mowerIdsWithNewPositionsRequired.get(mowerId);
+
+        Map<Position, List<Position>> positions = mowerIdsWithNewPositionsRequired.values().stream().collect(Collectors.groupingBy(a -> a));
+
+        return Optional.ofNullable(positions.get(newPositionRequired)).map(positionsList -> positionsList.size()>=2).orElse(false);
     }
 }
