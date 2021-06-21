@@ -1,5 +1,6 @@
 package application.mapper;
 
+import application.Utils;
 import domain.lawn.LawnWithMowers;
 import domain.lawn.mower.Mower;
 import domain.lawn.mower.MowerId;
@@ -16,6 +17,8 @@ import java.nio.file.Path;
 import java.util.Map;
 import java.util.function.IntFunction;
 import java.util.stream.IntStream;
+
+import static application.Utils.SPACE;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class LawnWithMowersMapper {
@@ -52,7 +55,7 @@ public class LawnWithMowersMapper {
 
         String[] inputFileLines = inputFileContent.split("\\r\\n");
 
-        String[] lawnData = inputFileLines[0].split(" ");
+        String[] lawnData = inputFileLines[0].split(SPACE);
 
         int lawnXAxisSize = Integer.parseInt(lawnData[0]);
         int lawnYAxisSize = Integer.parseInt(lawnData[1]);
@@ -67,12 +70,12 @@ public class LawnWithMowersMapper {
     }
 
     private static int numberOfMowers(int numberOfLinesInInputFile) {
-        return numberOfLinesInInputFile % 2;
+        return numberOfLinesInInputFile / 2;
     }
 
     private static IntFunction<Mower> createMower(String[] inputFileLines) {
         return mowerId -> {
-            String[] mowerPositionAndOrientation = inputFileLines[mowerId * 2 + 1].split(" ");
+            String[] mowerPositionAndOrientation = inputFileLines[mowerId * 2 + 1].split(SPACE);
             String xAxisPosition = mowerPositionAndOrientation[0];
             String yAxisPosition = mowerPositionAndOrientation[1];
             String orientation = mowerPositionAndOrientation[2];

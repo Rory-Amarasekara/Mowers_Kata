@@ -8,6 +8,8 @@ import domain.lawn.mower.position.and.orientation.factory.PositionWithOrientatio
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import static application.Utils.SPACE;
+
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 class PositionWithOrientationMapper {
 
@@ -28,9 +30,9 @@ class PositionWithOrientationMapper {
 
     static String fromDomain(PositionWithOrientation positionWithOrientation) {
         return positionWithOrientation.getXAxisPosition()
-                + " "
+                + SPACE
                 + positionWithOrientation.getYAxisPosition()
-                + " "
+                + SPACE
                 + convertOrientationToString(positionWithOrientation);
     }
 
