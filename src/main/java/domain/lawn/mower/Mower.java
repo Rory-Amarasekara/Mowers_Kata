@@ -35,11 +35,6 @@ public class Mower {
         return positionWithOrientation.getPosition();
     }
 
-    Mower followNavigationPlan() {
-        navigationPlan.getMowerMovements().forEach(this::move);
-        return this;
-    }
-
     private void move(MowerMovement mowerMovement) {
         switch (mowerMovement) {
             case FORWARD:

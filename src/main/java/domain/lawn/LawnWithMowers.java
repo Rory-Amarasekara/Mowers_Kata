@@ -29,7 +29,7 @@ public class LawnWithMowers {
 
     public Map<MowerId, PositionWithOrientation> followMowerNavigationPlansAndGetFinalPositionAndOrientation() {
 
-        Map<MowerId, Mower> mowerIdMowerMap = mowers.toMowerIdMowerMap();
+        Map<MowerId, Mower> mowerIdMowerMap = mowers.getMowerIdMowerMap();
 
         int biggestNumberOfMovementsForASingleMower = mowers.getBiggestNumberOfMovementsForASingleMower();
 
